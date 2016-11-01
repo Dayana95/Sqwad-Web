@@ -152,3 +152,12 @@ header{
     text-transform: uppercase;
     height: 45px;
 }
+
+#registerLink{
+	    padding-right: 10px;
+    border-right: 2px solid #fff;
+}
+
+body{
+	padding: 0 !important;
+}

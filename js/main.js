@@ -8,7 +8,8 @@
             },
 
             	componentWillMount: function(){
-		            this.firebaseRef = new Firebase('https://sqwad-app.firebaseio.com/users-videos');
+		            this.firebaseRef = new Firebase('https://sqwad-app.firebaseio.com/users-videos').limitToFirst(100);
+					 
 					var that = this;
 		            this.firebaseRef.once("value", function(snapshot){
 					  		
@@ -36,7 +37,7 @@
 			});
 
 			var UserList = React.createClass({
-				
+
 					                
 				           recorrerVideos: function(videoList){
 								  
@@ -46,15 +47,28 @@
 
 										Object.keys(videoList).map(function(videoKey, index){
 
-											var classes;
-                         				 if (index == 0){classes = "active item"} else {classes = "item"}
 
-											return	<div className={classes}>
+                         				 	if (index == 0){
+													return	<div className="active item">
+																<div className="video-title">
+																	<span>{videoList[videoKey].title}</span>
+																</div>
+											
+											<iframe  key="{index}" width="100%" height="400" src={videoList[videoKey].url} frameBorder="0" allowFullScreen></iframe></div>;
+                         				 	}
+                         				 	else{
+                         				 			return	<div className="item">
 												<div className="video-title">
 													<span>{videoList[videoKey].title}</span>
 												</div>
 											
-											<iframe  key="{index}" width="100%" height="400" src={videoList[videoKey].url} frameBorder="0" allowFullScreen></iframe></div>;
+											<iframe  key="{index}" width="100%" height="400" data-lazy-load-src={videoList[videoKey].url} frameBorder="0" allowFullScreen></iframe></div>
+
+                         				 	}
+
+										
+
+
 										})
 
 									}
@@ -63,6 +77,8 @@
 								  )
 			         },
 
+
+			         
 								
 				     
 
@@ -75,17 +91,18 @@
 									
 									this.props.users.map(user => {
 									var usuario = user.userId;
+								
 									
 									
 									var videoList = user.list;
 									var contador = Object.keys(videoList).length + " VIDEOS";
 									
-									console.log("Length: ", contador);
 									
 									var urls = this.recorrerVideos(videoList);
 									
 									var carouselId = ".carousel" + user.username;
-									var slider = "carousel slide carousel" + user.username; 
+								
+									var slider = "kharron carousel slide carousel" + user.username; 
 									
 									
 									return <div className="container" style={{marginBottom: 50}} >
@@ -95,7 +112,7 @@
 										
 										<div className="row">
 											<div className="col-md-9 col-sm-9 col-xs-9">
-												<div  className={slider} data-ride="carousel">
+												<div className={slider} data-ride="carousel">
 											
 
 													{urls}
@@ -154,6 +171,8 @@
 									</div>
 									</div>
 
+							
+
 									})
 									}							     
 							    </section>				    
@@ -171,3 +190,6 @@
 			<Users />,
 			document.getElementById('user')
 			);
+
+
+

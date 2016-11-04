@@ -14,8 +14,9 @@ header{
 	line-height: 100px;
 }
 
-.login-link a:hover{
+.login-link a:hover, #registerLink:hover, .login-link a:focus, #registerLink:hover{
 	text-decoration: none;
+	color: #fff !important;
 }
 
 .sqwad-menu li a{
@@ -160,4 +161,16 @@ header{
 
 body{
 	padding: 0 !important;
+}
+
+#registerModal, #loginModal{
+	z-index: 99999;
+}
+
+.addform-input{
+	background: transparent !important;
+	border: none !important;
+	font-size: 1.2em !important;
+	text-align: center;
+    font-weight: bold;
 }

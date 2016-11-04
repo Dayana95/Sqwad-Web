@@ -1,3 +1,1 @@
-Sqwad website 
-
-Carefully crafted By SenorCoders
+#Sqwad Web

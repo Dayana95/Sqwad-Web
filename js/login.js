@@ -168,6 +168,7 @@ $('#btnAddVideo').on('click', function (e) {
                
                 var  user2 = snapshot.val().username;
                 uname = user2;
+                
               
               console.log('Uname', uname);
               videoRef
@@ -208,5 +209,9 @@ $('#btnAddVideo').on('click', function (e) {
 
     }
 });
+
+//Change Profile Image SRC if the image doesn't exist in the server
+
+
 
 

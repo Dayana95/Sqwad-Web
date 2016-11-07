@@ -1,0 +1,19 @@
+{
+  "name": "sqwad",
+  "version": "1.0.0",
+  "description": "web App to share videos",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "author": "Dayana",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^3.5.3",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2"
+  },
+  "devDependencies": {
+    "webpack": "^1.13.3"
+  }
+}

@@ -10,15 +10,12 @@ var ui= null;
 
  var authDataCallback = function(authData) {
       ui = authData;
-        console.log("authCallback Event is called from onAuth Event");
         if (authData) {
-            console.log(authData);
+           
           $('.unauthenticated, .userAuth').toggleClass('unauthenticated').toggleClass('authenticated');
-
 
         } else {
             console.log("User is logged out");
-                    
         }
     }
 
@@ -159,7 +156,7 @@ $('#btnAddVideo').on('click', function (e) {
                       setTimeout(  function () {
                         $('#messageModal').modal('hide');
                         //$('.unauthenticated, .userAuth').toggleClass('unauthenticated').toggleClass('authenticated');
-                         location.reload();
+                         //location.reload();
 
                       }, 500)
             } else {
@@ -170,7 +167,6 @@ $('#btnAddVideo').on('click', function (e) {
                 uname = user2;
                 
               
-              console.log('Uname', uname);
               videoRef
                       .child(ui.uid)
                       .set({
@@ -179,7 +175,6 @@ $('#btnAddVideo').on('click', function (e) {
                         
                       }, function(){
                         $("#btnAddVideo").trigger("click");
-                          console.log('Updated');
                       })
 
                       })

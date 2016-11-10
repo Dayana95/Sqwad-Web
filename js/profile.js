@@ -1,3 +1,4 @@
+
 var Profile = React.createClass({
 	getInitialState: function(){
 		return{
@@ -14,7 +15,7 @@ var Profile = React.createClass({
 			 
 
 			 var that = this;
-		            this.firebaseRef.once("value", function(snapshot){
+		            this.firebaseRef.on("value", function(snapshot){
 					  		
 		              var videos = [];
 			              snapshot.forEach(function(data){
@@ -27,7 +28,6 @@ var Profile = React.createClass({
 
 			                    
 			                  }
-			                  console.log(video);
 			                  videos.push(video);
 			                that.setState({videos : videos}); 
 			              });
@@ -44,23 +44,19 @@ var Profile = React.createClass({
 
 	var MyList = React.createClass({
 
-					                
-				          
-								
-				     
-
-           
+				           
 				render: function(){							
 
 						return(								
 
 								<section className="videos-container">{
 									
-									this.props.videos.map(user => {				
+									this.props.videos.map(user  => {				
 									
-						
-									return <div className="container" style={{marginBottom: 50}} >
+
+									return <div  className="container" style={{marginBottom: 50}} >
 												<div className="col-md-10">
+																										
 													<div className="row">
 														<div className="col-md-9 col-sm-9 col-xs-9">
 																<div className="video-title">

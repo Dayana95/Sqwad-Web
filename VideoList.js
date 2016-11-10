@@ -3,30 +3,35 @@ import React from 'react'
 var UserList = React.createClass({
 
 					                
-				           recorrerVideos: function(videoList){
+				           recorrerVideos: function(videoList, id){
 								  
 								  return(
 									
 									<div className="carousel-inner" role="listbox">{
 
 										Object.keys(videoList).map(function(videoKey, index){
+											var iframeid= id + 'index' + index;
+											var active = "active item " + id;
+											var noactive = "item " + id;
 
 
                          				 	if (index == 0){
-													return	<div className="active item">
+													return	<div  className={active}>
 																<div className="video-title">
 																	<span>{videoList[videoKey].title}</span>
 																</div>
+
 											
-											<iframe  key="{index}" width="100%" height="400" src={videoList[videoKey].url} frameBorder="0" allowFullScreen></iframe></div>;
+											<iframe id={iframeid} key="{index}" width="100%" height="400" src={videoList[videoKey].url} frameBorder="0" allowFullScreen></iframe></div>;
                          				 	}
                          				 	else{
-                         				 			return	<div className="item">
+                         				 			return	<div  className={noactive}>
 												<div className="video-title">
 													<span>{videoList[videoKey].title}</span>
 												</div>
+
 											
-											<iframe  key="{index}" width="100%" height="400" data-lazy-load-src={videoList[videoKey].url} frameBorder="0" allowFullScreen></iframe></div>
+											<iframe id={iframeid} key="{index}" width="100%" height="400" data-lazy-load-src={videoList[videoKey].url} frameBorder="0" allowFullScreen></iframe></div>
 
                          				 	}
 
@@ -46,9 +51,91 @@ var UserList = React.createClass({
 			        	ev.target.src = 'img/profile.jpg'
   			},
 
-				     
 
+  							     
+  			pullVideo: function(e, id){
+  					e.preventDefault();
+
+  					if(ui){
+
+  						 $("#video-data-1, #video-data-2").empty();
+
+					  var urlid =  $(".item.active." + id).find("iframe").attr("id");
+					  
+					  var videoid = $("#" + urlid).attr("src");
+
+					  var matches = videoid.match(/^https:\/\/www\.youtube\.com\/embed\/([^?]+)/i);
+						$('#addVideoModal').modal('show');
+
+						if (matches) {
+							videoid = matches[1];
+						}
+						if (videoid.match(/^[a-z0-9_-]{11}$/i) === null) {
+							$("#formSaveVideo").addClass("hidden");
+							$("<p className='red'>Unable to parse Video ID/URL.</p>").appendTo("#video-data-1");
+							return;
+						}else{
+							$("#formSaveVideo").removeClass("hidden");
+
+						}
+
+						$.getJSON("https://www.googleapis.com/youtube/v3/videos", {
+					key: "AIzaSyBkSNFZpLrAk-sss0s9VxSKkmAWlYZ-RIM",
+					part: "snippet,statistics",
+					id: videoid
+				}, function(data) {
+					if (data.items.length === 0) {
+						$("<p className='red'>Video not found.</p>").appendTo("#video-data-1");
+						return;
+					}
+					$("<img>", {
+						src: data.items[0].snippet.thumbnails.medium.url,
+						width: data.items[0].snippet.thumbnails.medium.width,
+						height: data.items[0].snippet.thumbnails.medium.height
+					}).appendTo("#video-data-1");
+					
+					$("#videoTitle").val(data.items[0].snippet.title);
+					$("#descriptionVideo").val(data.items[0].snippet.description);
+					$("#videoUrl").val('https://www.youtube.com/embed/' + videoid);
+					$("#videoProvider").val('youtube');
+
+				}).fail(function(jqXHR, textStatus, errorThrown) {
+					$("<p className='red'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
+				});
+
+  			}else{
+
+  			} 					
+				  	 $('#loginModal').modal('show');
+				  	
+				 
+  			},
            
+
+  				originalSource: function(e, id){
+  					e.preventDefault();
+
+  					if(ui){
+  						
+
+  					 var urlid =  $(".item.active." + id).find("iframe").attr("id");
+					  
+					  var videoid = $("#" + urlid).attr("src");
+
+					  var originalLink = $("#original-link").attr('href', videoid);
+
+					  window.open(videoid, '_blank');
+
+  					}else{
+  						
+  						  $('#loginModal').modal('show');
+
+  					}
+
+  					
+
+  				},
+
 				render: function(){	
 
 
@@ -70,7 +157,7 @@ var UserList = React.createClass({
 									var contador = Object.keys(videoList).length + " VIDEOS";
 									
 									
-									var urls = this.recorrerVideos(videoList);
+									var urls = this.recorrerVideos(videoList, user.userId);
 									
 									var carouselId = ".carousel" + user.username;
 								
@@ -81,7 +168,7 @@ var UserList = React.createClass({
 											<div className="col-md-10">
 
 										
-										<div className="row">
+										<div className="row sqwad-select">
 											<div className="col-md-9 col-sm-9 col-xs-9">
 												<div className={slider} data-ride="carousel">
 											
@@ -90,14 +177,17 @@ var UserList = React.createClass({
 												  </div>
 											</div>
 											<div className="col-md-3 col-sm-3 col-xs-3">
+												
+
+
 												<div className="actions-container">
-													<a href="#">
+													<a href="#" className="pullbtn" onClick={(e) => this.pullVideo(e, user.userId)}>
 														<img src="img/placeholder.png"/>
 													</a>
 												</div>
 
 												<div className="actions-container">
-													<a href="#">
+													<a href="#" id="original-link" target="_blank" onClick={(e) => this.originalSource(e, user.userId)}>
 														<img src="img/placeholder.png" />
 													</a>
 												</div>

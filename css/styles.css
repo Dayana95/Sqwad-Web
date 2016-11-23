@@ -205,3 +205,53 @@ body{
 .red{
 	color: #F00;
 }
+
+.friends-ul li{
+	list-style: none;
+}
+
+.check{
+	vertical-align: middle;
+	margin-right: 10px !important;
+	float: right;
+}
+
+@media (max-width: 768px){
+
+
+.buttons-container{
+	display: inline-flex;
+}
+
+.actions-container{
+	width: 33%;
+	padding:0 20px;
+}
+
+.no-padding{
+	padding: 0 !important;
+}
+
+iframe{
+	height: 250px !important;
+}
+}
+
+.friends-ul li{
+	padding: 5px 0;
+    border-bottom: 1px solid #dad6d6;
+    color: #6b00d9;
+}
+
+.friends-ul{
+	padding:0;
+}
+
+.checkbox{
+	margin: 0 !important;
+}
+
+.right{
+	float: right;
+	margin-top: 7px !important;
+}

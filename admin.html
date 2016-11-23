@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sqwad</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="css/styles.css">	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+  
+    	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+			<!--
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+-->
+
+<style type="text/css">
+	 .authenticated{
+      display: block !important;
+     
+    }
+    .unauthenticated{
+      display: none !important;
+    }
+</style>
+
+
+</head>
+<body>
+
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 col-sm-6 col-xs-12">
+						
+						    <a href="index.html"><img src="img/sqwad-logo.png" height="100px"></a>
+					</div>
+
+					<div class="col-md-6 col-md-offset-3  col-sm-6 col-xs-12 login-link">
+
+					<a id="registerLink" href="#"  data-toggle="modal" data-target="#registerModal" class="userAuth hidethis"> REGISTER</a>
+						<a href="#"  data-toggle="modal" data-target=".bs-example-modal-sm" class="userAuth hidethis" style="padding-left: 7px">LOGIN</a>
+
+						<a href="#" id="logout" class="unauthenticated">LOGOUT</a>
+
+							<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="Register" aria-hidden="true">
+						    <div class="modal-dialog">
+						      <div class="modal-content">
+						        <div class="modal-header">
+						          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						          <h4 class="modal-title" id="registerModalLabel">Register</h4>
+						        </div>
+						        <div class="modal-body">
+						        <form  role="form"> 
+						          <div class="form-group">
+						            
+						            <input type="text" class="form-control" id="registerFirstName" placeholder="First Name" required>
+						          </div>
+						          <div class="form-group">
+						           
+						            <input type="text" class="form-control" id="registerLastName" placeholder="Last Name" required>
+						          </div>
+
+						          <div class="form-group">
+						           
+						            <input type="text" class="form-control" id="registerUsername" placeholder="Username" required>
+						          </div>
+
+						           <div class="form-group">
+						           
+						            <input type="date" class="form-control" id="registerBirthday" placeholder="Birthday" required>
+						          </div>
+						          <div class="form-group">
+						           
+						            <input type="email" class="form-control" id="registerEmail" placeholder="Email" required>
+						          </div>
+						          <div class="form-group">
+						            
+						            <input type="password" class="form-control" id="registerPassword" placeholder="Password" required>
+						          </div>
+						          <div class="form-group">
+						          
+						            <input type="password" class="form-control" id="registerConfirmPassword" placeholder="Confirm Password" required>
+						          </div>
+
+						          <button id="doRegister" type="submit" class="btn btn-default">Register</button>
+
+						          </form>
+
+						        </div>
+						        
+						        
+						      </div>
+						    </div>
+						  </div>
+						
+
+								<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="loginModal">
+								  <div class="modal-dialog modal-sm" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+									        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									        <h4 class="modal-title" id="myModalLabel">Login</h4>
+									      </div>
+
+									      <div class="modal-body">
+									      		<form class="form-signin" role="form"> 
+												  <div class="form-group">
+												    
+												    <input type="email" class="form-control" id="email" placeholder="Email address" required>
+												  </div>
+												  <div class="form-group">
+												    
+												    <input type="password" class="form-control" placeholder="Password" id="pwd" required>
+												  </div>
+												
+												  <button id="btnSqwad" type="submit" class="btn btn-default">Submit</button>
+												</form>
+												
+									      </div>
+								    </div>
+								  </div>
+								</div>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- Menu -->
+
+		<section class="menu">
+			<div class="container">
+				<ul class="nav nav-pills sqwad-menu">
+				  <li role="presentation" ><a href="index.html">Discover</a></li>
+				  <li role="presentation"><a href="#" data-toggle="modal" data-target=".bs-videos-modal-sm">Save video</a></li>
+				  <li role="presentation" class="unauthenticated"><a href="profile.html">My profile</a></li>
+				</ul>
+
+			
+						
+
+								<div class="modal fade bs-videos-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="addUrlModal">
+								  <div class="modal-dialog modal-sm" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+									        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									        <h4 class="modal-title" id="myModalLabel">SAVE VIDEO</h4>
+									      </div>
+
+									      <div class="modal-body">
+
+									      	<div class="userAuth hidethis">
+									      		You need to <a href="#" data-toggle="modal" data-target="#loginModal">Login</a>  or <a href="#" data-toggle="modal" data-target="#registerModal">
+									      			Create an account
+									      		</a> 
+									      	</div>
+									      		<form class="unauthenticated">
+												
+												  <div class="form-group">
+												    
+												    <input type="text" class="form-control" id="url" placeholder="ADD URL" required>
+												  </div>
+												  
+												  <button type="submit" class="btn btn-default" id="addVideo">ADD</button>
+												</form>
+									      </div>
+								    </div>
+								  </div>
+								</div>
+			</div>
+		</section>
+
+		<!-- Videos -->
+
+		 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="Message" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="messageModalLabel">Message</h4>
+        </div>
+        <div class="modal-footer">
+          <div class="pre-auth">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <span class="">
+              <button type="submit" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#registerModal">Register</button>
+              <button type="submit" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#loginModal">Login</button>
+            </span>
+          </div>
+          <div class="post-auth"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Video Modal -->
+
+		 <div class="modal fade" id="addVideoModal" tabindex="-1" role="dialog" aria-labelledby="Message" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Save Video</h4>
+        </div>
+
+        <div class="modal-body">
+        	<style>
+				
+				#video-data-1  { white-space: pre-line; text-align: center;}
+			</style>
+        	<div id="video-data-1"></div>
+			<ul id="video-data-2"></ul>
+
+			<form id="formSaveVideo">
+				<div class="form-group">
+
+					<input style="width: 100%;" class="addform-input" type="text" name="Title" id="videoTitle" readonly="true">
+
+				</div>
+
+				<div class="form-group hidden">
+				    <label for="descriptionVideo">Description:</label>
+				    <textarea class="addform-input" style="width: 100%;" id="descriptionVideo"></textarea>
+
+				</div>
+
+				<div class="form-group hidden">
+				    <label for="videoUrl">Video URL:</label>
+
+					<input class="addform-input" style="width: 100%;" type="text" name="URL" id="videoUrl" readonly="true">
+
+				</div>
+
+				<div class="form-group hidden">
+				    <label for="videoProvider">Video Provider:</label>
+
+					<input class="addform-input" style="width: 100%;" type="text" name="Provider" id="videoProvider" readonly="true">
+
+				</div>
+
+				<div class="form-group hidden">
+				    <label for="videoProviderId">Video Provider ID:</label>
+
+					<input class="addform-input" style="width: 100%;" type="text" name="Provider ID" id="videoProviderId" readonly="true">
+
+				</div>
+
+				  <button id="btnAddVideo" type="submit" class="btn btn-default">SAVE VIDEO</button>
+			</form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+  <!-- End Add video Modal -->
+
+
+  <!-- Friends List Modal -->
+
+
+  <!-- End Friends List Modal -->
+
+		<!-- SLider videos -->
+
+		<div id="admin"></div>
+
+		 	
+		<!-- End Slider videos -->
+ 		
+ 		
+ 	
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <!-- Latest compiled and minified Bootstrap -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <!-- Include Firebase Library -->
+  <script src="https://cdn.jsdelivr.net/firebase/3.3.1/firebase.js"></script>
+
+<script type="text/javascript" src="js/lazy-loading.js"></script>
+
+<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/add.js"></script>
+
+<script  src="admin.js"></script> 
+
+</body>
+</html>

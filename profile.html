@@ -6,7 +6,8 @@
 	<title>Sqwad</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-	<link rel="stylesheet" type="text/css" href="css/styles.css">	
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link rel="stylesheet" type="text/css" href="css/build.css">	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="build/react.js"></script>
     <script src="build/react-dom.js"></script>
@@ -241,6 +242,13 @@
 
 				</div>
 
+				<div class="form-group hidden">
+				    <label for="videoProviderId">Video Provider ID:</label>
+
+					<input class="addform-input" style="width: 100%;" type="text" name="Provider ID" id="videoProviderId" readonly="true">
+
+				</div>
+
 				  <button id="btnAddVideo" type="submit" class="btn btn-default">SAVE VIDEO</button>
 			</form>
         </div>
@@ -252,39 +260,28 @@
 
   <!-- End Add video Modal -->
   		
-  		<div class="container">
-  			<div class="col-md-6 col-sm-12">
-  			<div style="margin: 20px;">
-  				<div class="row">  					
-  						<div id="cabecera"></div>					
-  					</div>
+  		
+			<div class="modal fade" id="friend-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="addUrlModal">
+								  <div class="modal-dialog modal-sm" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+									        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									        <h4 class="modal-title" id="myModalLabel">MY FRIENDS</h4>
+									      </div>
 
-  				<div class="row">
-  					<div class="col-md-3">
-  						<div id="videoscuenta"></div>
-  					</div>
-  					<div class="col-md-3">
-  						<div id="followers"></div>
-  					</div>
-  				</div>
-  				
-  			</div>
-  				
-  			</div>
-  		</div>
+									      <div class="modal-body">
 
+									      	<div id="friend-list"></div>
+									      </div>
+								    </div>
+								  </div>
+								</div>
 
 		<!-- SLider videos -->
-
+	
 		<div id="profile"></div>
 		 	
 		<!-- End Slider videos -->
-		<script type="text/babel" src="js/ProfileHead.js"></script>
-		<script type="text/babel" src="js/Followers.js"></script> 
-		<script type="text/babel" src="js/VideosCount.js"></script>  
-
- 		<script type="text/babel" src="js/profile.js"></script> 
- 		
  	
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -297,6 +294,8 @@
 
 <script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="js/add.js"></script>
+<script  src="profileTest.js"></script> 
+
 
 
 </body>

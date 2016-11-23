@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react';
+
 var FollowerCount = React.createClass({
 
 	getInitialState: function(){
@@ -7,13 +10,18 @@ var FollowerCount = React.createClass({
 	},
 
 		componentWillMount: function(){
-			this.ref = new Firebase('https://sqwad-app.firebaseio.com/followers/' + ui.uid);
+			if(ui){
+
+				this.ref = new Firebase('https://sqwad-app.firebaseio.com/followers/' + ui.uid);
 			var that = this;
 			this.ref.on('value', function(snap){
 					var followers = snap.val().followersCount;					
 					that.setState({followers : followers});
 					
 			})
+
+			}
+			
 		},
 
 
@@ -31,7 +39,4 @@ var FollowerCount = React.createClass({
 });
 
 
-			ReactDOM.render(
-			<FollowerCount />,
-			document.getElementById('followers')
-			);
+export default FollowerCount

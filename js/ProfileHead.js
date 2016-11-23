@@ -1,14 +1,18 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 var HeadProfile = React.createClass({
 
 	getInitialState: function(){
 			return{
 				usuario: "",
-				foto: ""
+				foto: "" 
 			}
 	},
 
 		componentWillMount: function(){
-			this.ref = new Firebase('https://sqwad-app.firebaseio.com/users/' + ui.uid);
+			if(ui){
+				this.ref = new Firebase('https://sqwad-app.firebaseio.com/users/' + ui.uid);
 			var that = this;
 			this.ref.once('value', function(snap){
 					var usuario = snap.val().username;
@@ -16,6 +20,8 @@ var HeadProfile = React.createClass({
 					that.setState({usuario : usuario});
 					that.setState({foto : foto});
 			})
+			}
+			
 		},
 
 		addDefaultSrc(ev){
@@ -36,8 +42,5 @@ var HeadProfile = React.createClass({
 		}
 });
 
-
-			ReactDOM.render(
-			<HeadProfile />,
-			document.getElementById('cabecera')
-			);
+export default HeadProfile
+			

@@ -12,7 +12,7 @@ var Users = React.createClass({
             },
 
             	componentWillMount: function(){
-		            this.firebaseRef = new Firebase('https://sqwad-app.firebaseio.com/users-videos').limitToFirst(100);
+		            this.firebaseRef = new Firebase('https://sqwad-app.firebaseio.com/users-videos');
 					 
 					var that = this;
 

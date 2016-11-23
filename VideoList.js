@@ -1,4 +1,7 @@
-import React from 'react'
+import React from 'react';
+import FriendsList from './js/share';
+import LazyLoad from 'react-lazyload';
+ 
 
 var UserList = React.createClass({
 
@@ -16,16 +19,17 @@ var UserList = React.createClass({
 
 
                          				 	if (index == 0){
-													return	<div  className={active}>
+													return	<div key={index}  className={active}>
 																<div className="video-title">
 																	<span>{videoList[videoKey].title}</span>
 																</div>
 
 											
 											<iframe id={iframeid} key="{index}" width="100%" height="400" src={videoList[videoKey].url} frameBorder="0" allowFullScreen></iframe></div>;
+											
                          				 	}
                          				 	else{
-                         				 			return	<div  className={noactive}>
+                         				 			return	<div key={index} className={noactive}>
 												<div className="video-title">
 													<span>{videoList[videoKey].title}</span>
 												</div>
@@ -51,7 +55,6 @@ var UserList = React.createClass({
 			        	ev.target.src = 'img/profile.jpg'
   			},
 
-
   							     
   			pullVideo: function(e, id){
   					e.preventDefault();
@@ -65,15 +68,79 @@ var UserList = React.createClass({
 					  var videoid = $("#" + urlid).attr("src");
 
 					  var matches = videoid.match(/^https:\/\/www\.youtube\.com\/embed\/([^?]+)/i);
-						$('#addVideoModal').modal('show');
+						
 
 						if (matches) {
+							$('#addVideoModal').modal('show');
 							videoid = matches[1];
 						}
 						if (videoid.match(/^[a-z0-9_-]{11}$/i) === null) {
-							$("#formSaveVideo").addClass("hidden");
-							$("<p className='red'>Unable to parse Video ID/URL.</p>").appendTo("#video-data-1");
-							return;
+							if(videoid.match(/^http:\/\/www\.dailymotion\.com\/embed\/video\/([^_]+)/)){
+								
+								var dailyMatches = videoid.match(/^http:\/\/www\.dailymotion\.com\/embed\/video\/([^_]+)/);
+									
+									var dailyID;
+
+									if(dailyMatches){
+										dailyID = dailyMatches[1];
+									}else{
+										alert('Error');
+									}
+									alert(dailyID);
+									
+									 $('#addVideoModal').modal('show');
+
+							$.getJSON("https://api.dailymotion.com/video/"+ dailyID + "?fields=id,title,access_error,description,duration,embed_url,thumbnail_large_url", function(data) {
+							
+								$("<img>", {
+									src: data.thumbnail_large_url,
+								}).appendTo("#video-data-1");
+
+								$("#videoProviderId").val(dailyID);
+								$("#videoTitle").val(data.title);
+								$("#descriptionVideo").val(data.description);
+								$("#videoUrl").val(data.embed_url);
+								$("#videoProvider").val('Dailymotion');
+
+							}).fail(function(jqXHR, textStatus, errorThrown) {
+								$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
+							});
+							}
+
+								else if(videoid.match(/^https:\/\/player\.vimeo\.com\/video\/([^_]+)/)){
+								
+								var vimeoMatches = videoid.match(/^https:\/\/player\.vimeo\.com\/video\/([^_]+)/);
+								var vimeoID;
+								if(vimeoMatches){
+									vimeoID = vimeoMatches[1];
+								}
+								
+								 $('#addVideoModal').modal('show');
+								$.getJSON('http://www.vimeo.com/api/v2/video/' + vimeoID + '.json?callback=?', {format: "json"}, function(data) {
+									       
+											    $("<img>", {
+											src: data[0].thumbnail_medium,
+										}).appendTo("#video-data-1");
+
+										$("#videoProviderId").val(vimeoID);
+										$("#videoTitle").val(data[0].title);
+										$("#descriptionVideo").val(data[0].description);
+										$("#videoUrl").val("https://player.vimeo.com/video/" + vimeoID);
+										$("#videoProvider").val('Vimeo');
+
+
+									});
+							}
+
+
+							else{
+								 $('#addVideoModal').modal('show');
+								$("#formSaveVideo").addClass("hidden");
+								$("<p style='color: #F00;'>Unable to parse Video ID/URL.</p>").appendTo("#video-data-1");
+							
+							}
+
+					return;
 						}else{
 							$("#formSaveVideo").removeClass("hidden");
 
@@ -98,15 +165,18 @@ var UserList = React.createClass({
 					$("#descriptionVideo").val(data.items[0].snippet.description);
 					$("#videoUrl").val('https://www.youtube.com/embed/' + videoid);
 					$("#videoProvider").val('youtube');
+					$("#videoProviderId").val(videoid);
+
 
 				}).fail(function(jqXHR, textStatus, errorThrown) {
 					$("<p className='red'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
 				});
 
   			}else{
+  				 $('#loginModal').modal('show');
 
   			} 					
-				  	 $('#loginModal').modal('show');
+				  	
 				  	
 				 
   			},
@@ -122,8 +192,6 @@ var UserList = React.createClass({
 					  
 					  var videoid = $("#" + urlid).attr("src");
 
-					  var originalLink = $("#original-link").attr('href', videoid);
-
 					  window.open(videoid, '_blank');
 
   					}else{
@@ -136,6 +204,159 @@ var UserList = React.createClass({
 
   				},
 
+  				shareVideo: function(e, id, username){
+
+  					 e.preventDefault();
+
+  					 
+
+  					 	var databaseRef = new Firebase("https://sqwad-app.firebaseio.com/");
+							var notificationRef = databaseRef.child('notifications');
+							var usuariosRef = databaseRef.child('users');
+							var svRef = databaseRef.child('users-shared-videos');
+  					   		var urlid =  $(".item.active." + id).find("iframe").attr("id");
+					  		var videoid = $("#" + urlid).attr("src");
+					  		var url = videoid;
+					  		
+					  		  var matches = url.match(/^https:\/\/www\.youtube\.com\/embed\/([^?]+)/i);
+						
+											if (matches) {
+												url = matches[1];
+											}
+											
+											$.getJSON("https://www.googleapis.com/youtube/v3/videos", {
+										key: "AIzaSyBkSNFZpLrAk-sss0s9VxSKkmAWlYZ-RIM",
+										part: "snippet,statistics",
+										id: url
+									}, function(data) {
+																		
+								var val = [];
+							        $(':checkbox:checked').each(function(i){
+							          val[i] = $(this).val();
+
+							      var usuarioname;
+							      var foto;
+
+               					 usuariosRef.child(ui.uid).once('value', function(snapshot){
+               
+                					var  usuarioname = snapshot.val().username;
+                					var foto = snapshot.val().photoUrl;
+               						var roomUnique = databaseRef.child('room-metadata').push();
+
+					                					usuariosRef.child(val[i]).once('value', function(snap){
+					                							var sendername = snap.val().username;
+					                						var shareVideosRef = svRef.child(ui.uid).push();
+					                						var keyRoom = shareVideosRef.key();
+					                						shareVideosRef
+					                							.set({
+					                								createdAt: Date.now(),
+					                								name: data.items[0].snippet.title,
+					                								video:{
+					                									 title    : data.items[0].snippet.title,
+												                            url    : videoid,
+												                            provider: 'youtube',
+					                								}
+					                				
+					                							}, function(){
+					                								console.log("Room created");
+					                							})
+
+					                							
+
+					                						var recipientRef = svRef.child(ui.uid).child(keyRoom).child('recipients').push();
+
+					                							recipientRef.update({
+					                								userId: val[i],
+					                								username: sendername,
+					                								roomId: roomUnique.key()
+					                							})
+
+
+					                					})
+                					
+
+							         var newChildRef = notificationRef.child(val[i]).child('list').push();
+
+
+							         		   newChildRef
+						                         .set({
+						                         	createdAt: Date.now(),
+						                         	notificationId: newChildRef.key(),
+						                         	read: 'false',
+						                         	status: 'pending',
+						                         	text: 'has sent you a video. Tap to watch it',
+						                         	type: 'new_video_received',
+						                         	roomId: roomUnique.key(),
+						                         	sender:{
+						                         		userId: ui.uid,
+						                         		username: usuarioname,
+						                         		photoUrl: foto,
+						                         	},
+						                         	video:{
+						                         		createdAt: Date.now(),
+						                         		description    : data.items[0].snippet.title,
+							                            title    : data.items[0].snippet.description,
+							                            url    : videoid,
+							                            provider: 'youtube',
+						                         	}						                         
+						                          }, function(){
+						                            console.log("Video Shared");
+						                          })				                   
+
+						                         })
+
+               					              notificationRef.child(val[i]).once('value', function(snapdata){
+						                       
+						                    	var nonseen = snapdata.val().notificationsNotSeenCounter;
+						                    	console.log("Nonseen",nonseen);
+						                    	 
+						                    	 if (nonseen == null){
+						                    	 	
+						                    	 		snapdata.ref().update({"notificationsNotSeenCounter": 1});
+						                    	 		
+						                    	 }else{
+						                    	 	snapdata.ref().update({"notificationsNotSeenCounter": nonseen + 1});
+						                    	 }
+						                    })
+						                          $('.modal-' + username).modal('hide');
+						                         $('#messageModal').modal('show');
+						                      $('#messageModalLabel').html('<span class="text-center text-success">Video Shared</span>')
+						                      //hide the modal automatically
+						                       $(':checkbox:checked').prop('checked', false);
+						                      setTimeout(  function () {
+						                        $('#messageModal').modal('hide');
+						                        
+						                      }, 500)
+
+							        });				 
+						 	
+
+
+									}).fail(function(jqXHR, textStatus, errorThrown) {
+										$("<p className='red'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
+									});					 		
+
+
+  					  					 		
+
+  				},
+
+  				handleSection: function(e, clase){
+  					  	e.preventDefault();
+
+
+  					if(ui){
+
+  						$('.shareLink').attr('data-target', clase);
+
+  					}else{
+
+  						$('#loginModal').modal('show');
+  						$('.shareLink').attr('data-target', '.bs-example-modal-sm');
+  					}
+
+  				},
+
 				render: function(){	
 
 
@@ -145,10 +366,10 @@ var UserList = React.createClass({
 
 
 									
-									this.props.users.map(user => {
+									this.props.users.map((user, index) => {
 									var usuario = user.userId;
 								
-									
+
 									var imgUrl = 'https://firebasestorage.googleapis.com/v0/b/sqwad-app.appspot.com/o/'+ user.userId +'.jpg?alt=media';
 									
 									
@@ -162,39 +383,41 @@ var UserList = React.createClass({
 									var carouselId = ".carousel" + user.username;
 								
 									var slider = "kharron carousel slide carousel" + user.username; 
+									var modalClass = ".modal-" + user.username;
+									var modal = "modal fade modal-" + user.username;
 									
-									
-									return <div className="container" style={{marginBottom: 50}} >
+									return <LazyLoad key={index} height={400} once>
+									<div className="container" style={{marginBottom: 50}} >
 											<div className="col-md-10">
 
 										
 										<div className="row sqwad-select">
-											<div className="col-md-9 col-sm-9 col-xs-9">
+											<div className="col-md-9 col-sm-9 col-xs-12 no-padding">
 												<div className={slider} data-ride="carousel">
 											
 
 													{urls}
 												  </div>
 											</div>
-											<div className="col-md-3 col-sm-3 col-xs-3">
+											<div className="col-md-3 col-sm-3 col-xs-12 buttons-container">
 												
 
 
 												<div className="actions-container">
 													<a href="#" className="pullbtn" onClick={(e) => this.pullVideo(e, user.userId)}>
-														<img src="img/placeholder.png"/>
+														<img src="img/add-to-profile.png"/>
 													</a>
 												</div>
 
 												<div className="actions-container">
 													<a href="#" id="original-link" target="_blank" onClick={(e) => this.originalSource(e, user.userId)}>
-														<img src="img/placeholder.png" />
+														<img src="img/see-original-link.png" />
 													</a>
 												</div>
 
 												<div className="actions-container">
-													<a href="#">
-														<img src="img/placeholder.png"/>
+													<a href="#" data-toggle="modal" className="shareLink" onClick={(e) => this.handleSection(e, modalClass)}>
+														<img src="img/share-with-friends.png"/>
 													</a>
 												</div>
 											</div>
@@ -230,11 +453,31 @@ var UserList = React.createClass({
 
 										</div>
 									</div>
+								<div className={modal} id="friend-modal" tabIndex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+								  <div className="modal-dialog modal-sm" role="document">
+								    <div className="modal-content">
+								      <div className="modal-header">
+									        <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									        <h4 className="modal-title" id="myModalLabel">MY FRIENDS</h4>
+									      </div>
+
+									      <div className="modal-body">
+
+									      	<div id="friend-list">
+									      		<FriendsList />
+									      	</div>
+									      	<form>
+									      	
+									      		<button type="submit" className="btn btn-default" id="shareBtn" onClick={(e) => this.shareVideo(e, user.userId, user.username)}>SHARE WITH FRIENDS</button>
+									      	</form>
+
+									      </div>
+								    </div>
+								  </div>
+								</div>
 									</div>
-
-							
-
-									})
+									</LazyLoad>							
+										})
 									}							     
 							    </section>				    
 
@@ -242,6 +485,8 @@ var UserList = React.createClass({
 
 
 				}
+
+					
 			});
 
 export default UserList

@@ -58,10 +58,13 @@ $('#doRegister').on('click', function (e) {
               usersRef
                 .child(userData.uid)
                 .set({
+                    createdAt: Date.now(),
                     firstName    : $('#registerFirstName').val(),
                     lastName    : $('#registerLastName').val(),
                     email    : $('#registerEmail').val(),
                     username: $('#registerUsername').val(),
+                    birthday: $('#registerBirthday').val(),
+                    photoUrl: 'https://firebasestorage.googleapis.com/v0/b/sqwad-app.appspot.com/o/default.jpg?alt=media'
                   }, function(){
 
                     console.log("User Information Saved:", userData.uid);
@@ -110,6 +113,7 @@ $('#btnSqwad').on('click', function (e) {
           //$('.unauthenticated, .userAuth').toggleClass('unauthenticated').toggleClass('authenticated');
          
         })
+        location.reload();
       }
     });
   }
@@ -139,26 +143,52 @@ $('#btnAddVideo').on('click', function (e) {
        function userExistsCallback(userId, exists) {
             if (exists) {
 
-              var newChildRef = videoRef.child(ui.uid).child('list').push();
+                  videoRef.child(ui.uid).child('list').orderByChild('providerVideoId').equalTo($('#videoProviderId').val()).once('value', function(snapvideo){
+                       
+
+                        if(snapvideo.val() === 'undefined' || snapvideo.val() === null){
+                               var newChildRef = videoRef.child(ui.uid).child('list').push();
 
 
-                newChildRef
-                         .set({
-                            description    : $('#descriptionVideo').val(),
-                            title    : $('#videoTitle').val(),
-                            url    : $('#videoUrl').val(),
-                            provider: $('#videoProvider').val(),
-                          }, function(){
-                            console.log("Video Saved Saved");
-                          })
-                      $('#messageModalLabel').html('<span class="text-center text-success">Video Added</span>')
-                      //hide the modal automatically
-                      setTimeout(  function () {
-                        $('#messageModal').modal('hide');
-                        //$('.unauthenticated, .userAuth').toggleClass('unauthenticated').toggleClass('authenticated');
-                         //location.reload();
+                            newChildRef
+                                     .set({
+                                        createdAt: Date.now(),
+                                        description    : $('#descriptionVideo').val(),
+                                        title    : $('#videoTitle').val(),
+                                        url    : $('#videoUrl').val(),
+                                        providerVideoId: $('#videoProviderId').val(),
+                                        provider: $('#videoProvider').val(),
+                                      }, function(){
+                                        console.log("Video Saved Saved");
+                                      })
+                                  $('#messageModalLabel').html('<span class="text-center text-success">Video Added</span>')
+                                  //hide the modal automatically
+                                  setTimeout(  function () {
+                                    $('#messageModal').modal('hide');
+                                    //$('.unauthenticated, .userAuth').toggleClass('unauthenticated').toggleClass('authenticated');
+                                     //location.reload();
 
-                      }, 500)
+                                  }, 500)
+                        } else{
+
+                           $('#messageModalLabel').html('<span class="text-center text-success">You already have this video</span>')
+                                  //hide the modal automatically
+                                  setTimeout(  function () {
+                                    $('#messageModal').modal('hide');
+                                    //$('.unauthenticated, .userAuth').toggleClass('unauthenticated').toggleClass('authenticated');
+                                     //location.reload();
+
+                                  }, 500)
+
+                        }
+                  })
+
+                          
+
+                               
+
+                           
+              
             } else {
               var uname;
                 usersRef.child(ui.uid).once('value', function(snapshot){
@@ -210,3 +240,7 @@ $('#btnAddVideo').on('click', function (e) {
 
 
 
+$('.carousel').carousel({
+    pause: true,
+    interval: false
+}); 

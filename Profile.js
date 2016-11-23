@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MyList from './ProfileList'
+import MyList from './ProfileList';
+import HeadProfile from './js/ProfileHead';
+import VideosCount from './js/VideosCount';
+import FollowersCount from './js/Followers';
 
+ 
 
 var Profile = React.createClass({
 	getInitialState: function(){
@@ -14,11 +18,11 @@ var Profile = React.createClass({
 			
 			
 
-			 this.firebaseRef = new Firebase('https://sqwad-app.firebaseio.com/users-videos/'+ ui.uid  +'/list').limitToFirst(100);
+			 this.firebaseRef = new Firebase('https://sqwad-app.firebaseio.com/users-videos/'+ ui.uid  +'/list');
 			 
 
 			 var that = this;
-		            this.firebaseRef.once("value", function(snapshot){
+		            this.firebaseRef.on("value", function(snapshot){
 					  		
 		              var videos = [];
 			              snapshot.forEach(function(data){
@@ -27,7 +31,9 @@ var Profile = React.createClass({
 			                  var video = {
 			                    
 			                     url: data.val().url,
-			                     title: data.val().title
+			                     title: data.val().title,
+			                     providerId: data.val().providerVideoId,
+			                     videoID: data.key()
 
 			                    
 			                  }
@@ -39,8 +45,34 @@ var Profile = React.createClass({
 			          },
 
 				render: function(){
-						return(							
-							<MyList videos={this.state.videos}/>					
+						return(
+						<div>	
+							<div className="container">
+							<div className="col-md-6 col-sm-12">
+					  			<div style={{margin: 20}}>
+					  				<div className="row">  					
+					  						<HeadProfile />					
+					  					</div>
+
+					  				<div className="row">
+					  					<div className="col-md-3">
+					  						<VideosCount />
+					  					</div>
+					  					<div className="col-md-3">
+					  						<FollowersCount />
+					  					</div>
+					  				</div>
+					  				
+					  			</div>
+					  				
+					  			</div>	
+
+					  			</div>	
+					  				
+									<MyList videos={this.state.videos}/>
+									
+
+							</div>					
 							)				
 
 	}

@@ -1,3 +1,7 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+
 var VideosCount = React.createClass({
 
 	getInitialState: function(){
@@ -7,7 +11,9 @@ var VideosCount = React.createClass({
 	},
 
 		componentWillMount: function(){
-			this.ref = new Firebase('https://sqwad-app.firebaseio.com/users-videos/' + ui.uid + '/list');
+
+			if(ui){
+				this.ref = new Firebase('https://sqwad-app.firebaseio.com/users-videos/' + ui.uid + '/list');
 			var that = this;
 			this.ref.on('value', function(snap){
 					 var videos = [];
@@ -26,6 +32,8 @@ var VideosCount = React.createClass({
 			              });
 					
 			})
+			}
+			
 		},
 
 
@@ -54,7 +62,4 @@ var VideosCount = React.createClass({
 		});
 
 
-			ReactDOM.render(
-			<VideosCount />,
-			document.getElementById('videoscuenta')
-			);
+export default VideosCount

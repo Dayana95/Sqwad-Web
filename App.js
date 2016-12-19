@@ -21,7 +21,6 @@ var Users = React.createClass({
 			            		dataSnapshot.forEach(function(childSnaphot){
 			            			var item = {
 			            				username: childSnaphot.val().username,
-
 					                     userId: childSnaphot.val().userId,
 					                     list: childSnaphot.val().list
 			            			}

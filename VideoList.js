@@ -1,13 +1,17 @@
 import React from 'react';
 import FriendsList from './js/share';
 import LazyLoad from 'react-lazyload';
+import PlaceholderComponent from './js/placeholder';
  
 
 var UserList = React.createClass({
 
+							
 					                
 				           recorrerVideos: function(videoList, id){
-								  
+
+				           	
+
 								  return(
 									
 									<div className="carousel-inner" role="listbox">{
@@ -132,6 +136,32 @@ var UserList = React.createClass({
 									});
 							}
 
+							else if(videoid.match(/^https:\/\/www\.facebook\.com\/([^_]+)/)){
+									var cadenaFacebook = videoid;
+									var separador = "/";
+									var arrayFacebook = cadenaFacebook.split(separador);
+									var facebookID = arrayFacebook[9];
+									alert(facebookID);
+								$('#addVideoModal').modal('show');
+
+									$.getJSON("https://graph.facebook.com/v2.7/"+ facebookID + "?fields=id,description,length,title,picture, embed_html,embeddable&access_token=208556729547178|51de1f5b965b2a96d9d96c12491c4c02", function(data) {
+							
+								$("<img>", {
+									src: data.picture,
+								}).appendTo("#video-data-1");
+
+								$("#videoProviderId").val(facebookID);
+								$("#videoTitle").val(data.description);
+								$("#descriptionVideo").val(data.description);
+								$("#videoUrl").val("https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/facebook/videos/"+ facebookID +"/&show_text=false&appId=208556729547178");
+								$("#videoProvider").val('Facebook');
+
+							}).fail(function(jqXHR, textStatus, errorThrown) {
+								$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
+							});
+							}
+
+
 
 							else{
 								 $('#addVideoModal').modal('show');
@@ -223,7 +253,8 @@ var UserList = React.createClass({
 											if (matches) {
 												url = matches[1];
 											}
-											
+
+																			
 											$.getJSON("https://www.googleapis.com/youtube/v3/videos", {
 										key: "AIzaSyBkSNFZpLrAk-sss0s9VxSKkmAWlYZ-RIM",
 										part: "snippet,statistics",
@@ -293,7 +324,7 @@ var UserList = React.createClass({
 						                         		photoUrl: foto,
 						                         	},
 						                         	video:{
-						                         		createdAt: Date.now(),
+						                         		createdAt: -1 * Date.now(),
 						                         		description    : data.items[0].snippet.title,
 							                            title    : data.items[0].snippet.description,
 							                            url    : videoid,
@@ -386,20 +417,20 @@ var UserList = React.createClass({
 									var modalClass = ".modal-" + user.username;
 									var modal = "modal fade modal-" + user.username;
 									
-									return <LazyLoad key={index} height={400} once>
-									<div className="container" style={{marginBottom: 50}} >
-											<div className="col-md-10">
+									return <LazyLoad key={index} height={2000} offset={100} >
+									<div className="col-md-6" style={{marginBottom: 50}} >
+											<div className="col-md-12">
 
 										
 										<div className="row sqwad-select">
-											<div className="col-md-9 col-sm-9 col-xs-12 no-padding">
+											<div className="col-md-10 col-sm-10 col-xs-12 no-padding">
 												<div className={slider} data-ride="carousel">
 											
 
 													{urls}
 												  </div>
 											</div>
-											<div className="col-md-3 col-sm-3 col-xs-12 buttons-container">
+											<div className="col-md-2 col-sm-2 col-xs-12 buttons-container">
 												
 
 

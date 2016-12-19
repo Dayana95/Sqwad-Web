@@ -255,3 +255,18 @@ iframe{
 	float: right;
 	margin-top: 7px !important;
 }
+
+.placeholder{
+	width: 100px;
+	margin: 0 auto;
+}
+
+.menu-top-sqwad{
+	list-style: none;
+}
+
+.menu-top-sqwad li{
+	float: left;
+	text-transform: uppercase;
+    padding: 10px;
+}

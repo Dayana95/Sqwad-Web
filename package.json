@@ -10,9 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "firebase": "^3.5.3",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "react-lazyload": "^2.1.6"
+    "halogen": "^0.2.0",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-lazyload": "^2.2.0"
   },
   "devDependencies": {
     "webpack": "^1.13.3"

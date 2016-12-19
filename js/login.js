@@ -152,7 +152,7 @@ $('#btnAddVideo').on('click', function (e) {
 
                             newChildRef
                                      .set({
-                                        createdAt: Date.now(),
+                                        createdAt: -1 * Date.now(),
                                         description    : $('#descriptionVideo').val(),
                                         title    : $('#videoTitle').val(),
                                         url    : $('#videoUrl').val(),
@@ -244,3 +244,15 @@ $('.carousel').carousel({
     pause: true,
     interval: false
 }); 
+
+
+
+    $('.carousel').each(function(){
+        $(this).carousel({
+            interval: false
+        });
+    });
+
+    $('.carousel').bind("slid", function () {
+$(this).carousel("pause");
+});

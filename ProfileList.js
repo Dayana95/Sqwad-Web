@@ -1,6 +1,7 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload'; 
 import FriendsList from './js/share';
+import PlaceholderComponent from './js/placeholder'
 
 
 
@@ -196,7 +197,8 @@ var MyList = React.createClass({
 								var finderClass = "col-md-9 no-padding col-sm-9 col-xs-12 url-frame-" + index;
 								var finder =".url-frame-" + index;
 								var iframeUnique = "iframe" + index;
-									return <LazyLoad key={index} height={400} once>
+									return <LazyLoad key={index} height={200} 
+                        placeholder={<PlaceholderComponent />} offset={100}>
 
 									<div className="container" style={{marginBottom: 50}} >
 												<div className="col-md-10 col-xs-12">

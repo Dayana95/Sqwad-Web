@@ -84,6 +84,30 @@ $(function() {
 									});
 							}
 
+							else if(videoid.match(/^https:\/\/www\.facebook\.com\/([^_]+)/)){
+									var cadenaFacebook = $("#url").val();
+									var separador = "/";
+									var arrayFacebook = cadenaFacebook.split(separador);
+									var facebookID = arrayFacebook[5];
+								$('#addVideoModal').modal('show');
+
+									$.getJSON("https://graph.facebook.com/v2.7/"+ facebookID + "?fields=id,description,length,title,picture, embed_html,embeddable&access_token=208556729547178|51de1f5b965b2a96d9d96c12491c4c02", function(data) {
+							
+								$("<img>", {
+									src: data.picture,
+								}).appendTo("#video-data-1");
+
+								$("#videoProviderId").val(facebookID);
+								$("#videoTitle").val(data.description);
+								$("#descriptionVideo").val(data.description);
+								$("#videoUrl").val("https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/facebook/videos/"+ facebookID +"/&show_text=false&appId=208556729547178");
+								$("#videoProvider").val('Facebook');
+
+							}).fail(function(jqXHR, textStatus, errorThrown) {
+								$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
+							});
+							}
+
 					else{
 						 $('#addVideoModal').modal('show');
 						$("#formSaveVideo").addClass("hidden");

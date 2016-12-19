@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 	<link rel="stylesheet" type="text/css" href="css/build.css">	
+	<link rel="stylesheet" type="text/css" href="css/screen.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
     <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
@@ -41,11 +42,19 @@
 					</div>
 
 					<div class="col-md-6 col-md-offset-3  col-sm-6 col-xs-12 login-link">
+					<ul class="menu-top-sqwad">
+						<li><a href="index.html">Home</a></li>
+						<li><a href="http://sqwad.senorcoders.com/#content">About</a></li>
+						<li><a href="http://sqwad.senorcoders.com/#request">Request Video</a></li>
+						<li><a href="http://sqwad.senorcoders.com/#contact">Contact</a></li>
+						<li><a id="registerLink" href="#"  data-toggle="modal" data-target="#registerModal" class="userAuth hidethis"> REGISTER</a>
+						<a href="#"  data-toggle="modal" data-target=".bs-example-modal-sm" class="userAuth hidethis" style="padding-left: 7px">LOGIN</a></li>
+						<li>
+						<a href="#" id="logout" class="unauthenticated">LOGOUT</a></li>
+					</ul>
 
-					<a id="registerLink" href="#"  data-toggle="modal" data-target="#registerModal" class="userAuth hidethis"> REGISTER</a>
-						<a href="#"  data-toggle="modal" data-target=".bs-example-modal-sm" class="userAuth hidethis" style="padding-left: 7px">LOGIN</a>
+					
 
-						<a href="#" id="logout" class="unauthenticated">LOGOUT</a>
 
 							<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="Register" aria-hidden="true">
 						    <div class="modal-dialog">
@@ -129,6 +138,17 @@
 				</div>
 			</div>
 		</header>
+		<div id="root">
+		<article id="welcome" style="display: none;">
+				<figure class="mobile-a"><img src="img/home-sqwad.png" alt="Placeholder" width="297" height="526"></figure>
+				<h2><span>Shimmy</span> App</h2>
+				<p>A beautiful app for you Iphone and Ipad</p>
+				<ul class="download-a a">
+					<li class="as"><a rel="external" href="./">Download on the App Store</a></li>
+					<li class="gp"><a rel="external" href="./">Get it on Google Play</a></li>
+				</ul>
+			</article>
+			</div>
 
 		<!-- Menu -->
 
@@ -266,7 +286,9 @@
 
   <!-- End Friends List Modal -->
 
+
 		<!-- SLider videos -->
+
 
 		<div id="app"></div>
 
@@ -278,7 +300,8 @@
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <!-- Latest compiled and minified Bootstrap -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script type="text/javascript" src="js/cookie.js"></script>
   <!-- Include Firebase Library -->
   <script src="https://cdn.jsdelivr.net/firebase/3.3.1/firebase.js"></script>
 

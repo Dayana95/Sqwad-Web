@@ -92,7 +92,8 @@ $('#doRegister').on('click', function (e) {
 $('#btnSqwad').on('click', function (e) {
   e.preventDefault();
   $('#loginModal').modal('hide');
-  $('#messageModalLabel').html('<span class="text-center text-info"><i class="fa fa-cog fa-spin"></i></span>');
+  $('#messageModalLabel').html('<img src="img/small-nobg.png" width="50px"/><span class="text-center text-info" style="line-heigh: 50px;"><i class="fa fa-cog fa-spin"></i></span>');
+  $('#footerModalMessage').html('<p class="text-center loggin-text">Loggin in</p>');
   $('#messageModal').modal('show');
 
   if( $('#loginEmail').val() != '' && $('#loginPassword').val() != '' ){
@@ -133,7 +134,8 @@ $('#btnSqwad').on('click', function (e) {
 $('#btnAddVideo').on('click', function (e) {
   e.preventDefault();
   $('#addVideoModal').modal('hide');
-  $('#messageModalLabel').html('<span class="text-center text-info"><i class="fa fa-cog fa-spin"></i></span>');
+  $('#messageModalLabel').html('<img src="img/small-nobg.png" width="50px"/><span class="text-center text-info" style="line-heigh: 50px;"><i class="fa fa-cog fa-spin"></i></span>');
+
   $('#messageModal').modal('show');
   
   if( $('#videoUrl').val() != '' && $('#videoTitle').val() != ''){
@@ -147,21 +149,41 @@ $('#btnAddVideo').on('click', function (e) {
                        
 
                         if(snapvideo.val() === 'undefined' || snapvideo.val() === null){
+
                                var newChildRef = videoRef.child(ui.uid).child('list').push();
 
 
                             newChildRef
                                      .set({
-                                        createdAt: -1 * Date.now(),
+                                        createdAt: Date.now(),
                                         description    : $('#descriptionVideo').val(),
                                         title    : $('#videoTitle').val(),
                                         url    : $('#videoUrl').val(),
                                         providerVideoId: $('#videoProviderId').val(),
                                         provider: $('#videoProvider').val(),
+                                        imgUrl: $("#videoScrrenshot").val(),
                                       }, function(){
                                         console.log("Video Saved Saved");
                                       })
-                                  $('#messageModalLabel').html('<span class="text-center text-success">Video Added</span>')
+
+
+                                     newChildRef.once("value", function(timesnap){
+                                          var priority = -1 * timesnap.val().createdAt;
+
+                                          newChildRef.update({
+
+                                           ".priority": priority,
+
+
+                                          })
+
+
+                                          videoRef.child(ui.uid).update({
+                                               ".priority": priority,
+                                          })
+                                     })
+                                  $('#messageModalLabel').html('<span class="text-center text-success">Video Added</span>');
+
                                   //hide the modal automatically
                                   setTimeout(  function () {
                                     $('#messageModal').modal('hide');

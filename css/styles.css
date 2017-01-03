@@ -123,6 +123,8 @@ header{
 }
 
 @media (min-width: 768px){
+
+
 .modal-sm {
     width: 500px !important;
 }
@@ -154,10 +156,10 @@ header{
     height: 45px;
 }
 
-#registerLink{
+/*#registerLink{
 	    padding-right: 10px;
     border-right: 2px solid #fff;
-}
+}*/
 
 body{
 	padding: 0 !important;
@@ -269,4 +271,62 @@ iframe{
 	float: left;
 	text-transform: uppercase;
     padding: 10px;
+}
+
+
+.navbar-default .navbar-collapse{
+		background: #6b00d9 !important;
+		border: none !important;
+
+}
+
+.navbar-default{
+	border-color: #6b00d9 !important;
+	    border: none  !important;
+    background: #6b00d9 !important;
+    border-radius: 0 !important;
+    padding: 20px 0;
+    margin-bottom: 0 !important;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fff !important;
+    text-transform: uppercase !important;
+    text-align: center !important;
+}
+
+.navbar-brand img{
+	margin-top: -30px !important;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff !important;
+}
+
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover{
+			background: #6b00d9 !important;
+
+}
+
+.loggin-text{
+	color: #6b00d9 !important;
+}
+
+.carousel-inner>.item>img{
+height: 350px !important;
+cursor: pointer !important;
+width: 100%;}
+
+.space-between{
+	height: 550px;
+}
+
+@media (max-width: 768px){
+	.carousel-inner>.item>img{
+		height: auto !important;
+	}
+
+	.space-between{
+		height: auto !important;
+	}
 }

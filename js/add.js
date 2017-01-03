@@ -1,4 +1,6 @@
 $(function() {
+
+
 			$("#url").on("keypress", function(e) {
 				if (e.which === 13) {
 					e.preventDefault();
@@ -54,6 +56,7 @@ $(function() {
 								$("#descriptionVideo").val(data.description);
 								$("#videoUrl").val(data.embed_url);
 								$("#videoProvider").val('Dailymotion');
+								$("#videoScrrenshot").val(data.thumbnail_large_url);
 
 							}).fail(function(jqXHR, textStatus, errorThrown) {
 								$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
@@ -79,6 +82,8 @@ $(function() {
 										$("#descriptionVideo").val(data[0].description);
 										$("#videoUrl").val("https://player.vimeo.com/video/" + vimeoID);
 										$("#videoProvider").val('Vimeo');
+										$("#videoScrrenshot").val(data[0].thumbnail_medium);
+
 
 
 									});
@@ -102,6 +107,9 @@ $(function() {
 								$("#descriptionVideo").val(data.description);
 								$("#videoUrl").val("https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/facebook/videos/"+ facebookID +"/&show_text=false&appId=208556729547178");
 								$("#videoProvider").val('Facebook');
+								$("#videoScrrenshot").val(data.picture);
+
+
 
 							}).fail(function(jqXHR, textStatus, errorThrown) {
 								$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
@@ -142,6 +150,7 @@ $(function() {
 					$("#descriptionVideo").val(data.items[0].snippet.description);
 					$("#videoUrl").val('https://www.youtube.com/embed/' + videoid);
 					$("#videoProvider").val('youtube');
+					$("#videoScrrenshot").val(data.items[0].snippet.thumbnails.medium.url);
 
 				}).fail(function(jqXHR, textStatus, errorThrown) {
 					$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");

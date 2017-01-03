@@ -4,22 +4,37 @@ import LazyLoad from 'react-lazyload';
 import PlaceholderComponent from './js/placeholder';
  
 
-var UserList = React.createClass({
 
-							
+
+
+var UserList = React.createClass({
+						
 					                
 				           recorrerVideos: function(videoList, id){
 
-				           	
+				           	function videoLayover(e, url, title){
+
+				           			e.preventDefault();
+									$("#iframeModal").modal('show');
+									$("#iframe-shimmy").attr('src', url);
+									$('#title-iframe').text(title);
+				           	};
+										
+
+				           	var mapKeys = Object.keys(videoList);
+
+							mapKeys.sort(function(a,b){return videoList[b].createdAt - videoList[a].createdAt});
 
 								  return(
 									
 									<div className="carousel-inner" role="listbox">{
+										
 
-										Object.keys(videoList).map(function(videoKey, index){
+										mapKeys.map(function(videoKey, index){
 											var iframeid= id + 'index' + index;
 											var active = "active item " + id;
 											var noactive = "item " + id;
+											
 
 
                          				 	if (index == 0){
@@ -29,7 +44,9 @@ var UserList = React.createClass({
 																</div>
 
 											
-											<iframe id={iframeid} key="{index}" width="100%" height="400" src={videoList[videoKey].url} frameBorder="0" allowFullScreen></iframe></div>;
+											
+																<img id={iframeid} key="{index}" className="img-responsive"  onClick={(e) => videoLayover(e, videoList[videoKey].url, videoList[videoKey].title)} src={videoList[videoKey].imgUrl} />
+											</div>;
 											
                          				 	}
                          				 	else{
@@ -39,7 +56,8 @@ var UserList = React.createClass({
 												</div>
 
 											
-											<iframe id={iframeid} key="{index}" width="100%" height="400" data-lazy-load-src={videoList[videoKey].url} frameBorder="0" allowFullScreen></iframe></div>
+																<img id={iframeid} key="{index}" className="img-responsive"  onClick={(e) => videoLayover(e, videoList[videoKey].url, videoList[videoKey].title)}  src={videoList[videoKey].imgUrl} />
+											</div>
 
                          				 	}
 
@@ -417,8 +435,8 @@ var UserList = React.createClass({
 									var modalClass = ".modal-" + user.username;
 									var modal = "modal fade modal-" + user.username;
 									
-									return <LazyLoad key={index} height={2000} offset={100} >
-									<div className="col-md-6" style={{marginBottom: 50}} >
+									return <LazyLoad key={index} height={200} offset={200} >
+									<div className="col-md-6 space-between" style={{marginBottom: 50}} >
 											<div className="col-md-12">
 
 										
@@ -458,7 +476,7 @@ var UserList = React.createClass({
 											
 											
 
-											<div className="col-md-6  col-sm-6 username-cont">
+											<div className="col-md-8  col-sm-8 username-cont">
 												<a href="#">
 													<img src={imgUrl} className="profileImage" onError={this.addDefaultSrc} />
 													<span className="username">{user.username}</span>
@@ -466,7 +484,7 @@ var UserList = React.createClass({
 												</a>
 											</div>
 											
-											<div className="col-md-6  col-sm-6">
+											<div className="col-md-4  col-sm-4">
 												<ul className="controls-list">
 													<li>
 														<a  href={carouselId} role="button" data-slide="prev">

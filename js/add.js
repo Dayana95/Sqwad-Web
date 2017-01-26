@@ -82,7 +82,7 @@ $(function() {
 										$("#descriptionVideo").val(data[0].description);
 										$("#videoUrl").val("https://player.vimeo.com/video/" + vimeoID);
 										$("#videoProvider").val('Vimeo');
-										$("#videoScrrenshot").val(data[0].thumbnail_medium);
+										$("#videoScrrenshot").val(data[0].thumbnail_large);
 
 
 
@@ -96,7 +96,7 @@ $(function() {
 									var facebookID = arrayFacebook[5];
 								$('#addVideoModal').modal('show');
 
-									$.getJSON("https://graph.facebook.com/v2.7/"+ facebookID + "?fields=id,description,length,title,picture, embed_html,embeddable&access_token=208556729547178|51de1f5b965b2a96d9d96c12491c4c02", function(data) {
+									$.getJSON("https://graph.facebook.com/v2.0/"+ facebookID + "?fields=id,description,length,full_picture,embed_html,embeddable&access_token=208556729547178|51de1f5b965b2a96d9d96c12491c4c02", function(data) {
 							
 								$("<img>", {
 									src: data.picture,
@@ -107,7 +107,7 @@ $(function() {
 								$("#descriptionVideo").val(data.description);
 								$("#videoUrl").val("https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/facebook/videos/"+ facebookID +"/&show_text=false&appId=208556729547178");
 								$("#videoProvider").val('Facebook');
-								$("#videoScrrenshot").val(data.picture);
+								$("#videoScrrenshot").val(data.full_picture);
 
 
 
@@ -150,7 +150,7 @@ $(function() {
 					$("#descriptionVideo").val(data.items[0].snippet.description);
 					$("#videoUrl").val('https://www.youtube.com/embed/' + videoid);
 					$("#videoProvider").val('youtube');
-					$("#videoScrrenshot").val(data.items[0].snippet.thumbnails.medium.url);
+					$("#videoScrrenshot").val(data.items[0].snippet.thumbnails.high.url);
 
 				}).fail(function(jqXHR, textStatus, errorThrown) {
 					$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");

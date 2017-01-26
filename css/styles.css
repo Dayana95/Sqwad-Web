@@ -293,6 +293,15 @@ iframe{
     color: #fff !important;
     text-transform: uppercase !important;
     text-align: center !important;
+    display: block;
+    /*float: left;*/
+    height: 35px;
+    /* padding: 0 18px; */
+    color: #fff;
+    line-height: 35px;
+    text-decoration: none;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    font-weight: 600;
 }
 
 .navbar-brand img{
@@ -307,7 +316,10 @@ iframe{
 			background: #6b00d9 !important;
 
 }
-
+.nav>li {
+  
+    padding: 0 0 0 30px !important;
+}
 .loggin-text{
 	color: #6b00d9 !important;
 }
@@ -321,6 +333,18 @@ width: 100%;}
 	height: 550px;
 }
 
+.img-bulk{
+	height: 350px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	cursor: pointer !important;
+}
+
+.before-title{
+	height: 65px !important;
+}
+
 @media (max-width: 768px){
 	.carousel-inner>.item>img{
 		height: auto !important;
@@ -329,4 +353,64 @@ width: 100%;}
 	.space-between{
 		height: auto !important;
 	}
+}
+
+
+.form-inline{
+	    width: 60% !important;
+    margin: 20px auto !important;
+       
+}
+
+.form-inline .form-group{
+	width: 80% !important;
+}
+
+.form-inline .form-control{
+	width: 100% !important;
+	    height: 40px !important;
+    border-radius: 5px !important;
+}
+
+.form-inline button{
+	width: 19% !important;
+	    background: #6b00d9 !important;
+    color: #fff !important;
+    text-transform: uppercase;
+    font-weight: 200 !important;
+    letter-spacing: 1.5px !important;
+    height: 40px !important;
+}
+
+
+
+
+@media (max-width: 768px){
+	.form-inline, .form-inline .form-group, .form-inline button{
+		width: 100% !important;
+	}
+
+	.center{
+		font-size: 18px !important;
+	}
+
+}
+
+.new-input img{
+	width:  50px !important;
+	border-radius: 25px;
+}
+
+.logos, .center{
+	text-align: center;
+}
+
+.center{
+	margin-top: 10px;
+	font-size: 35px;
+	color: #969696;
+}
+
+.new-input{
+	    margin: 50px auto !important;
 }

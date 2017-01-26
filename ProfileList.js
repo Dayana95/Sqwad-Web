@@ -177,7 +177,7 @@ var MyList = React.createClass({
 					 setTimeout(  function () {
 					 $('#messageModal').modal('hide');
 						                        
-					 }, 500)
+					 }, 1000)
   				},
 
 

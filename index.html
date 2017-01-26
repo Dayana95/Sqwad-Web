@@ -21,7 +21,7 @@
 
 <style type="text/css">
 	 .authenticated{
-      display: block !important;
+      visibility: visible !important;
      
     }
     .unauthenticated{
@@ -34,7 +34,7 @@
 <body>
 	<div>
 		<nav class="navbar navbar-default">
-  <div class="container-fluid">
+  <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -43,7 +43,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html"><img src="img/sqwad-logo.png" width="200px"></a>
+      <a class="navbar-brand" href="http://getshimmy.com/"><img src="img/sqwad-logo.png" width="200px"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -51,10 +51,10 @@
      
      
       <ul class="nav navbar-nav navbar-right">
-        				<li><a href="index.html">Home</a></li>
-						<li><a href="http://sqwad.senorcoders.com/#content">About</a></li>
-						<li><a href="http://sqwad.senorcoders.com/#request">Request Video</a></li>
-						<li><a href="http://sqwad.senorcoders.com/#contact">Contact</a></li>
+        				<li><a href="http://getshimmy.com/">Home</a></li>
+						<li><a href="http://getshimmy.com/getshimmy/#content">About</a></li>
+						<li><a href="http://getshimmy.com/getshimmy/#features">Features</a></li>
+						<li><a href="http://getshimmy.com/getshimmy/blog/">Latest</a></li>
 						<li><a id="registerLink" href="#"  data-toggle="modal" data-target="#registerModal" class="userAuth hidethis"> REGISTER</a></li>
 						<li><a href="#"  data-toggle="modal" data-target=".bs-example-modal-sm" class="userAuth hidethis" style="padding-left: 7px">LOGIN</a></li>
 						<li>
@@ -318,7 +318,38 @@
 
 
   <!-- End Friends List Modal -->
+  		<!-- Inline Form -->
+  		<div class="container new-input">
+  			<div class="row">
+  				<div class="col-md-12 logos">
+  					
+  					
+  					
+  					<img src="img/youtube.png" width="40px">
+  					<img src="img/dailymotion.png" width="40px">
+  					<img src="img/vimeo.png" width="40px">
+  					<img src="img/facebook.png" width="40px">
+  				</div>
+  				<div class="col-md-12 center">
+  					<p>Add your video url below</p>
+  				</div>
+  			</div>
 
+  			<div class="row">
+  			 <form class="form-inline">
+			   
+			    <div class="form-group">
+			      <input type="text" class="form-control" id="save-input" placeholder="Add Video Share Link Here" required="required">
+			    </div>
+			    
+			    <button type="submit" id="inline-no-button" class="btn btn-default userAuth hidethis">Add</button>
+
+			    <button type="submit" id="inline-button" class="btn btn-default unauthenticated">Add</button>
+			  </form>
+			  </div>
+		</div>
+
+  		<!-- End Inline Form -->
 
 		<!-- SLider videos -->
 
@@ -357,6 +388,8 @@
 
 <script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="js/add.js"></script>
+<script type="text/javascript" src="js/home-add.js"></script>
+
 
 <script  src="indexTest.js"></script> 
 

@@ -39,24 +39,28 @@ var UserList = React.createClass({
 
                          				 	if (index == 0){
 													return	<div key={index}  className={active}>
+
+																<div className="before-title">	
 																<div className="video-title">
 																	<span>{videoList[videoKey].title}</span>
 																</div>
+																</div>
 
 											
-											
-																<img id={iframeid} key="{index}" className="img-responsive"  onClick={(e) => videoLayover(e, videoList[videoKey].url, videoList[videoKey].title)} src={videoList[videoKey].imgUrl} />
+																<div id={iframeid} key="{index}" title={videoList[videoKey].url} className="img-bulk" style={{backgroundImage: 'url(' + videoList[videoKey].imgUrl + ')'}} onClick={(e) => videoLayover(e, videoList[videoKey].url, videoList[videoKey].title)} ></div>
 											</div>;
 											
                          				 	}
                          				 	else{
                          				 			return	<div key={index} className={noactive}>
+                         				 			<div className="before-title">
 												<div className="video-title">
 													<span>{videoList[videoKey].title}</span>
 												</div>
+												</div>
 
-											
-																<img id={iframeid} key="{index}" className="img-responsive"  onClick={(e) => videoLayover(e, videoList[videoKey].url, videoList[videoKey].title)}  src={videoList[videoKey].imgUrl} />
+												<div id={iframeid} key="{index}" title={videoList[videoKey].url} className="img-bulk" style={{backgroundImage: 'url(' + videoList[videoKey].imgUrl + ')'}} onClick={(e) => videoLayover(e, videoList[videoKey].url, videoList[videoKey].title)} ></div>
+
 											</div>
 
                          				 	}
@@ -85,16 +89,16 @@ var UserList = React.createClass({
 
   						 $("#video-data-1, #video-data-2").empty();
 
-					  var urlid =  $(".item.active." + id).find("iframe").attr("id");
+					  var urlid =  $(".item.active." + id).find(".img-bulk").attr("id");
 					  
-					  var videoid = $("#" + urlid).attr("src");
+					  var videoid = $("#" + urlid).attr('title');
 
 					  var matches = videoid.match(/^https:\/\/www\.youtube\.com\/embed\/([^?]+)/i);
 						
-
 						if (matches) {
 							$('#addVideoModal').modal('show');
-							videoid = matches[1];
+							
+							var videoid = matches[1];
 						}
 						if (videoid.match(/^[a-z0-9_-]{11}$/i) === null) {
 							if(videoid.match(/^http:\/\/www\.dailymotion\.com\/embed\/video\/([^_]+)/)){
@@ -123,6 +127,8 @@ var UserList = React.createClass({
 								$("#descriptionVideo").val(data.description);
 								$("#videoUrl").val(data.embed_url);
 								$("#videoProvider").val('Dailymotion');
+								$("#videoScrrenshot").val(data.thumbnail_large_url);
+
 
 							}).fail(function(jqXHR, textStatus, errorThrown) {
 								$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
@@ -149,6 +155,8 @@ var UserList = React.createClass({
 										$("#descriptionVideo").val(data[0].description);
 										$("#videoUrl").val("https://player.vimeo.com/video/" + vimeoID);
 										$("#videoProvider").val('Vimeo');
+										$("#videoScrrenshot").val(data[0].thumbnail_large);
+
 
 
 									});
@@ -173,6 +181,8 @@ var UserList = React.createClass({
 								$("#descriptionVideo").val(data.description);
 								$("#videoUrl").val("https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/facebook/videos/"+ facebookID +"/&show_text=false&appId=208556729547178");
 								$("#videoProvider").val('Facebook');
+								$("#videoScrrenshot").val(data.picture);
+
 
 							}).fail(function(jqXHR, textStatus, errorThrown) {
 								$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
@@ -214,6 +224,8 @@ var UserList = React.createClass({
 					$("#videoUrl").val('https://www.youtube.com/embed/' + videoid);
 					$("#videoProvider").val('youtube');
 					$("#videoProviderId").val(videoid);
+					$("#videoScrrenshot").val(data.items[0].snippet.thumbnails.high.url);
+
 
 
 				}).fail(function(jqXHR, textStatus, errorThrown) {
@@ -236,9 +248,9 @@ var UserList = React.createClass({
   					if(ui){
   						
 
-  					 var urlid =  $(".item.active." + id).find("iframe").attr("id");
+  					 var urlid =  $(".item.active." + id).find(".img-bulk").attr("id");
 					  
-					  var videoid = $("#" + urlid).attr("src");
+					  var videoid = $("#" + urlid).attr("title");
 
 					  window.open(videoid, '_blank');
 
@@ -262,8 +274,8 @@ var UserList = React.createClass({
 							var notificationRef = databaseRef.child('notifications');
 							var usuariosRef = databaseRef.child('users');
 							var svRef = databaseRef.child('users-shared-videos');
-  					   		var urlid =  $(".item.active." + id).find("iframe").attr("id");
-					  		var videoid = $("#" + urlid).attr("src");
+  					   		var urlid =  $(".item.active." + id).find(".img-bulk").attr("id");
+					  		var videoid = $("#" + urlid).attr("title");
 					  		var url = videoid;
 					  		
 					  		  var matches = url.match(/^https:\/\/www\.youtube\.com\/embed\/([^?]+)/i);
@@ -458,11 +470,7 @@ var UserList = React.createClass({
 													</a>
 												</div>
 
-												<div className="actions-container">
-													<a href="#" id="original-link" target="_blank" onClick={(e) => this.originalSource(e, user.userId)}>
-														<img src="img/see-original-link.png" />
-													</a>
-												</div>
+												
 
 												<div className="actions-container">
 													<a href="#" data-toggle="modal" className="shareLink" onClick={(e) => this.handleSection(e, modalClass)}>

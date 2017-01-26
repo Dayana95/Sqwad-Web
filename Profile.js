@@ -18,7 +18,7 @@ var Profile = React.createClass({
 			
 			
 
-			 this.firebaseRef = new Firebase('https://sqwad-app.firebaseio.com/users-videos/'+ ui.uid  +'/list').orderByChild('createdAt');
+			 this.firebaseRef = new Firebase('https://sqwad-app.firebaseio.com/users-videos/'+ ui.uid  +'/list');
 			 
 
 			 var that = this;

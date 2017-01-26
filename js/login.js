@@ -22,6 +22,11 @@ var ui= null;
 
     dbRef.onAuth(authDataCallback);
 
+$('#inline-no-button').on('click', function(e){
+  e.preventDefault();
+  $('.bs-videos-modal-sm').modal('show');
+})
+
 
 
 
@@ -122,7 +127,7 @@ $('#btnSqwad').on('click', function (e) {
 
    $("#logout").on('click', function() {
         dbRef.unauth();
-        window.location.href = "index.html";
+        window.location.href = "http://getshimmy.com/";
 
 
     });
@@ -200,7 +205,7 @@ $('#btnAddVideo').on('click', function (e) {
                                     //$('.unauthenticated, .userAuth').toggleClass('unauthenticated').toggleClass('authenticated');
                                      //location.reload();
 
-                                  }, 500)
+                                  }, 1000)
 
                         }
                   })
